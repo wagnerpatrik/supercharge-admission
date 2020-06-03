@@ -1,8 +1,14 @@
 .header {
   width: 100%;
   font-size: 2rem;
-  margin-bottom: 35px;
+  margin-bottom: 20px;
   text-align: center;
+}
+
+.introduction {
+  line-height: 25px;
+  letter-spacing: 0.8px;
+  margin-bottom: 40px;
 }
 
 .content {
@@ -13,7 +19,7 @@
 }
 
 .user-form {
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 
 .title {

@@ -2,6 +2,12 @@
   <div class="modal new-game">
     <div class="header">Start a game</div>
 
+    <p class="introduction">
+      In this game you the objective is to collect the most pairs of cards in the least possible moves. <br>
+      On each turn, the player turns over two cards (one at a time) and keeps them if the cards match. <br>
+      The trick is to remember which cards are where.
+    </p>
+
     <form [formGroup]="gameForm" class="content" (ngSubmit)="onSubmit(gameForm)">
       <div class="user-form">
         <div class="title">
