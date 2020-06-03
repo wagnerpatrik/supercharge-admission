@@ -13,6 +13,13 @@ const ROUTES: Routes = [
         loadChildren: () =>
           import('../new-game/new-game.module').then(({ NewGameModule }) => NewGameModule),
       },
+      {
+        path: 'leaderboard',
+        loadChildren: () =>
+          import('../leaderboard/leaderboard.module').then(
+            ({ LeaderboardModule }) => LeaderboardModule,
+          ),
+      },
     ],
   },
 ];
