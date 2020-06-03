@@ -1,0 +1,44 @@
+.header {
+  height: 80px;
+  color: #fff;
+  display: flex;
+  padding: 0 70px;
+  min-width: 760px;
+  align-items: center;
+  width: calc(100vw - 140px);
+  justify-content: space-between;
+  background-color: rgb(36, 35, 35);
+  border-bottom: 1px solid rgba(89, 192, 143, 0.94);
+}
+
+.stats {
+  flex: 1;
+}
+
+.stats span {
+  color: rgba(89, 192, 143, 0.94);
+}
+
+.title {
+  font-size: 2rem;
+  text-align: center;
+  width: calc(100% - 260px - 220px);
+}
+
+.actions {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.btn {
+  border: none;
+  color: #fff;
+  outline: none;
+  cursor: pointer;
+  min-width: 85px;
+  min-height: 30px;
+  border-radius: 7px;
+  padding: 6px 10px 3px 10px;
+  background-color: rgba(89, 192, 143, 0.94);
+}
