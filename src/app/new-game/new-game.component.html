@@ -3,6 +3,20 @@
     <div class="header">Start a game</div>
 
     <form [formGroup]="gameForm" class="content" (ngSubmit)="onSubmit(gameForm)">
+      <div class="user-form">
+        <div class="title">
+          Please enter your name
+        </div>
+
+        <div class="input-container">
+          <input
+            autofocus
+            formControlName="userName"
+            [placeholder]="(user$ | async) || 'Enter name'"
+          />
+        </div>
+      </div>
+
       <div class="deck-form">
         <div class="title">
           To start the game, enter the number of pairs to deal from.
@@ -31,6 +45,8 @@
         [disabled]="!gameForm.valid"
         (click)="onSubmit(gameForm)"
       >Start</button>
+
+      <button class="btn modal-btn" (click)="navigateLeaderboard()">Open Leaderboard</button>
     </div>
   </div>
 </section>

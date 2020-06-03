@@ -44,6 +44,10 @@
   min-width: 300px;
 }
 
+.user-form {
+  margin-bottom: 30px;
+}
+
 .title {
   color: #fff;
   font-size: 1.4rem;
@@ -94,7 +98,7 @@ input {
   display: flex;
   padding: 15px 0;
   margin-top: 25px;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 button:disabled {
