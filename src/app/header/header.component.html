@@ -1,7 +1,7 @@
 <header class="header">
   <div class="stats">
     <div>
-      Moves: <span>{{ moves$ | async }}</span>
+      Current tries: <span>{{ moves$ | async }}</span>
     </div>
     <div>
       Pairs found: <span>{{ pairsFound$ | async }}</span>
@@ -12,5 +12,9 @@
 
   <div class="actions">
     <button class="btn" (click)="navigateToStartScreen()">New Game</button>
+
+    <div>
+      hi there, <span class="user" *ngIf="user$ | async as user">{{ user || '-' }}</span>
+    </div>
   </div>
 </header>

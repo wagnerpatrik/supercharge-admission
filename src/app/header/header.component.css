@@ -26,7 +26,21 @@
 }
 
 .actions {
-  flex: 1;
   display: flex;
-  justify-content: center;
+  max-width: 250px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.actions div {
+  max-width: 160px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-left: 15px;
+}
+
+.user {
+  font-size: 1.3rem;
+  color: rgba(89, 192, 143, 0.94);
 }
