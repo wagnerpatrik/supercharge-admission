@@ -17,6 +17,6 @@ export class BoardComponent implements OnInit {
   constructor(private boardService: BoardService) {}
 
   public ngOnInit(): void {
-    this.deck$ = this.boardService.getDeck(DEFAULT_DECK_SIZE);
+    this.deck$ = this.boardService.getDeck(10 || DEFAULT_DECK_SIZE);
   }
 }

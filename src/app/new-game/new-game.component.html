@@ -1,5 +1,41 @@
 <section class="modal">
   <div class="new-game">
     <div class="header">Start a game</div>
+
+    <form [formGroup]="gameForm" class="content">
+      <div class="deck-form">
+        <div class="title">
+          To start the game, enter the number of pairs to deal from.
+        </div>
+
+        <div class="input-container">
+          <input placeholder="Enter the deck size from 3 to 10" formControlName="deckSize" />
+        </div>
+
+        <div class="error" *ngIf="deckSize.errors && !deckSize.pristine">
+          The entered value
+          {{
+            deckSize.hasError('min')
+              ? 'is too low'
+              : deckSize.hasError('max')
+              ? 'is too high'
+              : ''
+          }}
+          <ng-container
+            *ngIf="deckSize.hasError('pattern') || deckSize.hasError('whitespace')"
+            >must be a number</ng-container
+          >
+        </div>
+      </div>
+    </form>
+
+    <div class="footer">
+      <button
+        type="submit"
+        class="btn modal-btn"
+        [disabled]="!gameForm.valid"
+        (click)="onSubmit(gameForm)"
+      >Start</button>
+    </div>
   </div>
 </section>

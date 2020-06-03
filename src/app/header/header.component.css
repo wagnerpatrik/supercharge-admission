@@ -30,15 +30,3 @@
   display: flex;
   justify-content: center;
 }
-
-.btn {
-  border: none;
-  color: #fff;
-  outline: none;
-  cursor: pointer;
-  min-width: 85px;
-  min-height: 30px;
-  border-radius: 7px;
-  padding: 6px 10px 3px 10px;
-  background-color: rgba(89, 192, 143, 0.94);
-}
