@@ -1,34 +1,50 @@
-.modal {
-  top: 0px;
-  left: 0px;
-  z-index: 113;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  position: fixed;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(63, 60, 60, 0.8);
-}
-
-.leaderboard {
-  width: 700px;
-  display: flex;
-  min-height: 375px;
-  padding: 30px 20px;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  background-color: rgba(89, 192, 143, 0.94);
-  box-shadow:
-    0px 9px 6px -9px rgba(221, 203, 203, 0.4),
-    1px 2px 15px 3px rgba(191, 182, 182, 0.14),
-    0px 9px 46px 8px rgba(205, 192, 192, 0.22);
-}
-
 .header {
   width: 100%;
-  font-size: 2rem;
-  margin-bottom: 35px;
-  text-align: center;
+  display: flex;
+  font-size: 1.8rem;
+  margin-bottom: 40px;
+  align-items: center;
+}
+
+.header div {
+  flex: 1;
+}
+
+.title {
+  height: 30px;
+}
+
+.modal-btn {
+  flex: 0.5;
+  margin-left: 15%;
+}
+
+.content {
+  width: 100%;
+  padding: 0 15px;
+  max-height: 260px;
+  overflow-y: scroll;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 7px 7px 2px 7px;
+  border: 1px solid #303030;
+}
+
+.card h4,
+.card span {
+  margin: 0;
+  flex: 1;
+}
+
+#place {
+  flex: 0.2;
+  margin-left: 10px;
+}
+
+.card:hover {
+  box-shadow: 11px 7px 15px -5px rgba(85, 83, 83, 0.2);
 }

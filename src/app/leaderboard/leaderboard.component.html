@@ -1,15 +1,21 @@
-<section class="modal">
-  <div class="leaderboard">
-    <div class="header">Leaderboard</div>
+<section class="modal-wrapper">
+  <div class="modal leaderboard">
+    <div class="header">
+      <div></div>
+      <div class="title">LEADERBOARD</div>
+      <button class="btn modal-btn" (click)="navigateToStartScreen()">New game</button>
+    </div>
 
-    <app-spinner *ngIf="false"></app-spinner>
+    <ng-template #spinner>
+      <app-spinner></app-spinner>
+    </ng-template>
 
-    <div class="content">
-      <div class="card">
-        <span id="place"></span>
-        <h4 class="name"></h4>
-        <span class="size">Deck size: </span>
-        <span class="moves">Moves taken:</span>
+    <div class="content" *ngIf="!(isLoading$ | async); else spinner">
+      <div class="card" *ngFor="let user of leaderboard$ | async; let i = index">
+        <span id="place">{{ i + 1 }}</span>
+        <h4 class="name">{{ user.name }}</h4>
+        <span class="size">Deck size: {{ user.config.deckSize }}</span>
+        <span class="moves">Moves taken: {{ user.config.moves }}</span>
       </div>
     </div>
   </div>
