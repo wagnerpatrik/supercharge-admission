@@ -1,1 +1,14 @@
-<p>card works!</p>
+<div class="card" [class.hidden]="!isCardFlipped" (click)="!isCardFlipped ? flipCard(card) : null">
+  <div class="content">
+    <img
+      alt="tech image"
+      class="tech-image"
+      [src]="card.imgSource"
+      *ngIf="isCardFlipped; else defaultImg"
+    />
+
+    <ng-template #defaultImg>
+      <img src="./assets/cards/supercharge.png" alt="back of the card" />
+    </ng-template>
+  </div>
+</div>
