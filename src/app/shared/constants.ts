@@ -1,4 +1,4 @@
-export const ASSETS_PATH = './assets/cards/';
+export const CARDS_PATH = './assets/cards/';
 export const EXTENSION = '.png';
 export const TECHNOLOGIES = [
   'angular',
