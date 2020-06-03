@@ -39,9 +39,7 @@
           {{
             deckSize.hasError('min') ? 'is too low' : deckSize.hasError('max') ? 'is too high' : ''
           }}
-          <ng-container *ngIf="deckSize.hasError('pattern') || deckSize.hasError('whitespace')"
-            >must be a number</ng-container
-          >
+          <ng-container *ngIf="deckSize.hasError('pattern')">must be a number</ng-container>
         </div>
       </div>
     </form>

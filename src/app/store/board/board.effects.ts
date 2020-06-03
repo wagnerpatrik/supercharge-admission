@@ -30,7 +30,7 @@ export class BoardEffects {
       this.boardService.getDeck(deckSize).pipe(
         tap((deck) => {
           this.router.navigate(['/board']);
-          window.localStorage.setItem('boardState', JSON.stringify(deck));
+          window.localStorage.setItem('cardState', JSON.stringify(deck));
           window.localStorage.setItem('deckSize', JSON.stringify(deckSize));
         }),
         delay(500),
@@ -44,7 +44,7 @@ export class BoardEffects {
   compareCards$: Observable<Action | any> = this.actions$.pipe(
     ofType<BoardActions.SetCardVisibility>(BoardActions.SET_CARD_VISIBILITY),
     withLatestFrom(this.store.pipe(select(getMoves)), this.store.pipe(select(getCardsVisibility))),
-    tap(([, moves, _]) => window.localStorage.setItem('moves', JSON.stringify(moves))),
+    tap(([, moves]) => window.localStorage.setItem('moves', JSON.stringify(moves))),
     tap(
       (_) =>
         this.timerRef &&

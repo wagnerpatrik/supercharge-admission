@@ -19,14 +19,20 @@ import { FetchLeaderboard } from '../store/leaderboard/leaderboard.actions';
   providedIn: 'root',
 })
 export class BoardService {
-  private createDeck = compose(this.shuffle, this.doubleDeck, this.generateCards);
+  private createDeck = compose(
+    this.shuffle,
+    this.doubleDeck,
+    this.generateCards
+  );
 
   constructor(private store: Store<{}>) {}
 
   private generateCards(deckSize: number): Card[] {
-    return TECHNOLOGIES.slice(0, deckSize).map(
-      (tech, i) => ({ id: `${i}`, imgSource: `${CARDS_PATH}${tech}${EXTENSION}` } as Card),
-    );
+    return TECHNOLOGIES
+      .slice(0, deckSize)
+      .map((tech, i) =>
+        ({ id: `${i}`, imgSource: `${CARDS_PATH}${tech}${EXTENSION}` } as Card),
+      );
   }
 
   private doubleDeck(deck: Card[]): Card[] {
@@ -44,9 +50,9 @@ export class BoardService {
   }
 
   private loadPrevGame(
-    { gameState, pairsFound, deckSize, moves }: LastGameState = {} as LastGameState,
+    { cardState, pairsFound, deckSize, moves }: LastGameState = {} as LastGameState,
   ): void {
-    this.store.dispatch(new SetDeck(gameState));
+    this.store.dispatch(new SetDeck(cardState));
     this.store.dispatch(new AddToMoves(moves));
     this.store.dispatch(new FetchLeaderboard());
     this.store.dispatch(new SetDeckSize(deckSize));
@@ -55,14 +61,14 @@ export class BoardService {
   }
 
   public shouldLoadPrevGame(): void {
-    const [pairsFound, deckSize, gameState, moves] = PREV_GAME_STATE_KEYS.map((data) =>
+    const [pairsFound, deckSize, cardState, moves] = PREV_GAME_STATE_KEYS.map((data) =>
       JSON.parse(window.localStorage.getItem(data)),
     );
 
     return (
       pairsFound &&
       pairsFound.length < deckSize &&
-      this.loadPrevGame({ gameState, pairsFound, deckSize, moves })
+      this.loadPrevGame({ cardState, pairsFound, deckSize, moves })
     );
   }
 

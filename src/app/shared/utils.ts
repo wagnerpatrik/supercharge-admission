@@ -9,4 +9,5 @@ export function getBaseID(id: string): string {
   return id[0];
 }
 
-export const getRandomName = () => DEFAULT_NAMES[Math.floor(Math.random() * 4)];
+export const getRandomName = () =>
+  DEFAULT_NAMES[Math.floor(Math.random() * DEFAULT_NAMES.length)];

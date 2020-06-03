@@ -21,6 +21,6 @@ export class AppComponent {
 
   private checkForUser(): void {
     const user = window.localStorage.getItem('user');
-    return user ? this.store.dispatch(new SetUser(user)) : null;
+    return user && this.store.dispatch(new SetUser(user));
   }
 }

@@ -51,7 +51,7 @@ export function BoardReducer(state = initialState, action: Action): BoardState {
     }
 
     case BoardActions.SET_CAN_CONTINUE_LAST_GAME: {
-      return { ...state, canContinueLastGame: true };
+      return { ...state, canContinueLastGame: action.canContinue };
     }
 
     default:

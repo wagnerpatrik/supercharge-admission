@@ -45,7 +45,7 @@ export class NewGameComponent implements OnInit {
   private initialiseStream = (): [Observable<string>, Observable<boolean>] => [
     this.store.pipe(
       select(getUser),
-      tap((userName) => (!!userName ? this.gameForm.patchValue({ userName }) : null)),
+      tap((userName) => (!!userName && this.gameForm.patchValue({ userName }))),
     ),
     this.store.pipe(select(getCanContinue)),
   ]

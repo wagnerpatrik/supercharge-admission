@@ -31,7 +31,7 @@ export class LeaderboardComponent implements OnInit {
     [this.leaderboard$, this.isLoading$, this.hasError$] = this.initialiseStreams();
     this.victorious =
       !!this.activatedRoute.snapshot.queryParams.victory &&
-      (setTimeout(() => (this.victorious = !this.victorious), 3000), true);
+      (setTimeout(() => (this.victorious = false), 3000), true);
   }
 
   private initialiseStreams = (): [

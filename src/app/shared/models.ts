@@ -13,7 +13,7 @@ export type LeaderboardEntry = {
 };
 
 export type LastGameState = {
-  gameState: Card[];
+  cardState: Card[];
   pairsFound: string[];
   deckSize: number;
   moves: string[];

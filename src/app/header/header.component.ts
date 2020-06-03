@@ -32,10 +32,10 @@ export class HeaderComponent implements OnInit {
     ),
     this.store.pipe(select(getFoundPairs)).pipe(
       withLatestFrom(this.store.pipe(select(getDeckSize))),
-      tap(([pairs, deckSize]) => pairs.length === deckSize && this.handleVictory()),
-      map(([pairs]) => pairs.length),
+      tap(([{ length }, deckSize]) => length === deckSize && this.handleVictory()),
+      map(([{ length }]) => length),
     ),
-    this.store.pipe(select(getUser))
+    this.store.pipe(select(getUser)),
   ]
 
   private handleVictory(): void {
@@ -43,7 +43,7 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch(new Victory());
   }
 
-  public navigateToStartScreen(): void {
+  public createNewGame(): void {
     this.store.dispatch(new NewGame());
   }
 }
