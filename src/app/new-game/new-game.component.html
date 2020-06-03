@@ -3,8 +3,10 @@
     <div class="header">Start a game</div>
 
     <p class="introduction">
-      In this game you the objective is to collect the most pairs of cards in the least possible moves. <br>
-      On each turn, the player turns over two cards (one at a time) and keeps them if the cards match. <br>
+      In this game you the objective is to collect the most pairs of cards in the least possible
+      moves. <br />
+      On each turn, the player turns over two cards (one at a time) and keeps them if the cards
+      match. <br />
       The trick is to remember which cards are where.
     </p>
 
@@ -52,7 +54,15 @@
         (click)="onSubmit(gameForm)"
       >Start</button>
 
-      <button class="btn modal-btn" (click)="navigateLeaderboard()">Open Leaderboard</button>
+      <button class="btn modal-btn" (click)="navigate('/board/leaderboard')">
+        Open Leaderboard
+      </button>
+
+      <button
+        class="btn modal-btn"
+        (click)="navigate('/board')"
+        *ngIf="canContinueLastGame$ | async"
+      >Continue Last Game</button>
     </div>
   </div>
 </section>

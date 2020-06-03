@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-
 import { SetUser } from './store/leaderboard/leaderboard.actions';
+import { BoardService } from './shared/board.service';
+
 
 @Component({
   selector: 'app-root',
@@ -13,8 +14,9 @@ import { SetUser } from './store/leaderboard/leaderboard.actions';
   styles: [''],
 })
 export class AppComponent {
-  constructor(private store: Store<{}>) {
+  constructor(private store: Store<{}>, private boardService: BoardService) {
     this.checkForUser();
+    this.boardService.shouldLoadPrevGame();
   }
 
   private checkForUser(): void {

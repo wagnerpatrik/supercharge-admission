@@ -10,17 +10,18 @@ const initialState: BoardState = {
   loading: false,
   deckSize: null,
   foundPairs: [],
+  canContinueLastGame: false,
   cardsVisibility: {} as CardVisibilityState,
 };
 
 export function BoardReducer(state = initialState, action: Action): BoardState {
   switch (action.type) {
     case BoardActions.ADD_TO_MOVES: {
-      return { ...state, moves: [...state.moves, action.id] };
+      return { ...state, moves: [...state.moves, ...action.id] };
     }
 
     case BoardActions.SET_NEW_PAIR: {
-      return { ...state, foundPairs: [...state.foundPairs, action.id] };
+      return { ...state, foundPairs: [...state.foundPairs, ...action.id] };
     }
 
     case BoardActions.GENERATE_DECK: {
@@ -43,6 +44,14 @@ export function BoardReducer(state = initialState, action: Action): BoardState {
           ? { ...state.cardsVisibility, ...action.cardVisibility }
           : {},
       };
+    }
+
+    case BoardActions.SET_DECK_SIZE: {
+      return { ...state, deckSize: action.deckSize };
+    }
+
+    case BoardActions.SET_CAN_CONTINUE_LAST_GAME: {
+      return { ...state, canContinueLastGame: true };
     }
 
     default:

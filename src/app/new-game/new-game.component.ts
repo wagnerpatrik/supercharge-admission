@@ -12,6 +12,7 @@ import { getRandomName } from '../shared/utils';
 import { GenerateDeck } from '../store/board/board.actions';
 import { getUser } from '../store/leaderboard/leaderboard.selectors';
 import { SetUser, FetchLeaderboard } from '../store/leaderboard/leaderboard.actions';
+import { getCanContinue } from '../store/board/board.selectors';
 
 @Component({
   selector: 'app-new-game',
@@ -21,6 +22,7 @@ import { SetUser, FetchLeaderboard } from '../store/leaderboard/leaderboard.acti
 export class NewGameComponent implements OnInit {
   public gameForm: FormGroup;
   public user$: Observable<string>;
+  public canContinueLastGame$: Observable<boolean>;
 
   public get deckSize(): AbstractControl {
     return this.gameForm.get('deckSize');
@@ -37,14 +39,19 @@ export class NewGameComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.user$ = this.store.pipe(
-      select(getUser),
-      tap((userName) => (!!userName ? this.gameForm.patchValue({ userName }) : null)),
-    );
+    [this.user$, this.canContinueLastGame$] = this.initialiseStream();
   }
 
-  public openLeaderboard(): void {
-    this.router.navigate([`/board/leaderboard`]);
+  private initialiseStream = (): [Observable<string>, Observable<boolean>] => [
+    this.store.pipe(
+      select(getUser),
+      tap((userName) => (!!userName ? this.gameForm.patchValue({ userName }) : null)),
+    ),
+    this.store.pipe(select(getCanContinue)),
+  ]
+
+  public navigate(url: string): void {
+    this.router.navigate([url]);
   }
 
   public onSubmit({ value: { deckSize, userName }, valid }: FormGroup): void {
@@ -53,9 +60,5 @@ export class NewGameComponent implements OnInit {
       this.store.dispatch(new SetUser(userName || getRandomName()));
       this.store.dispatch(new GenerateDeck(parseInt(deckSize, 10) || DEFAULT_DECK_SIZE));
     }
-  }
-
-  public navigateLeaderboard(): void {
-    this.router.navigate(['/board/leaderboard']);
   }
 }

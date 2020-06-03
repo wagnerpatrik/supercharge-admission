@@ -7,7 +7,7 @@ import { Action, Store, select } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import * as BoardActions from './board.actions';
-import { getMoves, getCardsVisibility } from './board.selectors';
+import { getMoves, getCardsVisibility, getFoundPairs } from './board.selectors';
 
 import { getBaseID } from 'src/app/shared/utils';
 import { BoardService } from 'src/app/shared/board.service';
@@ -28,7 +28,11 @@ export class BoardEffects {
     ofType<BoardActions.GenerateDeck>(BoardActions.GENERATE_DECK),
     mergeMap(({ deckSize }) =>
       this.boardService.getDeck(deckSize).pipe(
-        tap((_) => this.router.navigate(['/board'])),
+        tap((deck) => {
+          this.router.navigate(['/board']);
+          window.localStorage.setItem('boardState', JSON.stringify(deck));
+          window.localStorage.setItem('deckSize', JSON.stringify(deckSize));
+        }),
         delay(500),
         map((deck) => new BoardActions.SetDeck(deck)),
         catchError((_) => of({} as Action)),
@@ -40,6 +44,7 @@ export class BoardEffects {
   compareCards$: Observable<Action | any> = this.actions$.pipe(
     ofType<BoardActions.SetCardVisibility>(BoardActions.SET_CARD_VISIBILITY),
     withLatestFrom(this.store.pipe(select(getMoves)), this.store.pipe(select(getCardsVisibility))),
+    tap(([, moves, _]) => window.localStorage.setItem('moves', JSON.stringify(moves))),
     tap(
       (_) =>
         this.timerRef &&
@@ -52,7 +57,7 @@ export class BoardEffects {
     map(([, moves, cards]) => Object.keys(cards).filter((c) => moves.slice(-2).includes(c))),
     tap(([x, y]) =>
       getBaseID(x) === getBaseID(y)
-        ? this.store.dispatch(new BoardActions.SetNewPair(x[0]))
+        ? this.store.dispatch(new BoardActions.SetNewPair([getBaseID(x)]))
         : (this.timerRef = window.setTimeout(
             () => this.store.dispatch(new BoardActions.SetCardVisibility({})),
             1000,
@@ -69,6 +74,15 @@ export class BoardEffects {
   @Effect({ dispatch: false })
   victory$: Observable<Action> = this.actions$.pipe(
     ofType<BoardActions.Victory>(BoardActions.VICTORY),
+    tap((_) => this.store.dispatch(new BoardActions.SetCanContinueLastGame(false))),
     tap((_) => this.router.navigate(['/board/leaderboard'], { queryParams: { victory: '!' } })),
+    tap((_) => window.localStorage.clear()),
+  );
+
+  @Effect({ dispatch: false })
+  savePairs$: Observable<Action | any> = this.actions$.pipe(
+    ofType<BoardActions.SetNewPair>(BoardActions.SET_NEW_PAIR),
+    withLatestFrom(this.store.pipe(select(getFoundPairs))),
+    tap(([, pairs]) => window.localStorage.setItem('pairs', JSON.stringify(pairs))),
   );
 }

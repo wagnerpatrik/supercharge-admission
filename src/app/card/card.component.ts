@@ -28,14 +28,14 @@ export class CardComponent implements OnInit {
     this.isCardFlipped$ = store.pipe(
       select(getCardVisibility(card.id)),
       withLatestFrom(isFound$),
-      map(([isVisible, isGuessed]) =>
-        isGuessed ? true : isVisible === undefined ? false : isVisible,
+      map(([isFlipped, isFound]) =>
+        isFound ? true : isFlipped === undefined ? false : isFlipped,
       ),
     );
   }
 
   public flipCard({ id }: Card): void {
-    this.store.dispatch(new AddToMoves(id));
+    this.store.dispatch(new AddToMoves([id]));
     this.store.dispatch(new SetCardVisibility({ [id]: true }));
   }
 }

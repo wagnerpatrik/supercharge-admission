@@ -8,6 +8,10 @@ export const getMoves = createSelector(getBoardState, ({ moves }) => moves);
 export const isLoading = createSelector(getBoardState, ({ loading }) => loading);
 export const getDeckSize = createSelector(getBoardState, ({ deckSize }) => deckSize);
 export const getFoundPairs = createSelector(getBoardState, ({ foundPairs }) => foundPairs);
+export const getCanContinue = createSelector(
+  getBoardState,
+  ({ canContinueLastGame }) => canContinueLastGame,
+);
 export const getCardsVisibility = createSelector(
   getBoardState,
   ({ cardsVisibility }) => cardsVisibility,

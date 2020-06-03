@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, withLatestFrom, map } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 
-import { isLoading, getDeck } from '../store/board/board.selectors';
+import { isLoading, getDeck, getCanContinue } from '../store/board/board.selectors';
 
 import { Card } from '../shared/models';
 
@@ -27,7 +27,9 @@ export class BoardComponent implements OnInit {
 
     this.deck$ = store.pipe(
       select(getDeck),
-      tap(({ length }) => !length && router.navigateByUrl(`board/start`)),
+      withLatestFrom(store.pipe(select(getCanContinue))),
+      tap(([{ length }, canRestart]) => (!length || canRestart) && router.navigateByUrl(`board/start`) ),
+      map(([deck]) => deck)
     );
   }
 }

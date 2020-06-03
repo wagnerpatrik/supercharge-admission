@@ -6,5 +6,6 @@ export interface BoardState {
   deckSize: number;
   loading: boolean;
   foundPairs: string[];
+  canContinueLastGame: boolean;
   cardsVisibility: CardVisibilityState;
 }
