@@ -9,8 +9,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 
-const REDUCERS = {};
-const EFFECTS = [];
+import { BoardReducer } from './store/board/board.reducer';
+import { BoardEffects } from './store/board/board.effects';
+
+const REDUCERS = { board: BoardReducer };
+const EFFECTS = [BoardEffects];
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent],
