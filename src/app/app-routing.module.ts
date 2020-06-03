@@ -6,7 +6,7 @@ const ROUTES: Routes = [
     path: 'board',
     loadChildren: () => import('./board/board.module').then(({ BoardModule }) => BoardModule),
   },
-  { path: '**', redirectTo: 'board' },
+  { path: '**', redirectTo: 'board/start' },
 ];
 
 @NgModule({
