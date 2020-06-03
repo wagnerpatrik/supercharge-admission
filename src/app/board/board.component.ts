@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { Store, select } from '@ngrx/store';
+
+import { isLoading, getDeck } from '../store/board/board.selectors';
 
 import { Card } from '../shared/models';
-import { BoardService } from '../shared/board.service';
-import { DEFAULT_DECK_SIZE } from '../shared/constants';
 
 @Component({
   selector: 'app-board',
@@ -14,12 +16,18 @@ import { DEFAULT_DECK_SIZE } from '../shared/constants';
 })
 export class BoardComponent implements OnInit {
   public deck$: Observable<Card[]>;
+  public isLoading$: Observable<boolean>;
 
-  constructor(private boardService: BoardService, private route: ActivatedRoute) {}
+  constructor(private store: Store<{}>, private router: Router) {}
 
   public ngOnInit(): void {
-    const { boardService, route } = this;
+    const { store, router } = this;
 
-    this.deck$ = boardService.getDeck(route.snapshot.queryParams.deckSize || DEFAULT_DECK_SIZE);
+    this.isLoading$ = store.pipe(select(isLoading));
+
+    this.deck$ = store.pipe(
+      select(getDeck),
+      tap(({ length }) => !length && router.navigateByUrl(`board/start`)),
+    );
   }
 }

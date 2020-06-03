@@ -1,6 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+import { Observable } from 'rxjs';
+import { Store, select } from '@ngrx/store';
+import { withLatestFrom, map } from 'rxjs/operators';
+
 import { Card } from '../shared/models';
+import { getBaseID } from '../shared/utils';
+
+import { isCardFound, getCardVisibility } from '../store/board/board.selectors';
+import { AddToMoves, SetCardVisibility } from '../store/board/board.actions';
 
 @Component({
   selector: 'app-card',
@@ -9,12 +17,25 @@ import { Card } from '../shared/models';
 })
 export class CardComponent implements OnInit {
   @Input() public card: Card;
-  public isCardFlipped = false;
+  public isCardFlipped$: Observable<boolean>;
 
-  constructor() {}
-  public ngOnInit(): void {}
+  constructor(private store: Store<{}>) {}
 
-  public flipCard() {
-    this.isCardFlipped = !this.isCardFlipped;
+  public ngOnInit(): void {
+    const { card, store } = this;
+    const isFound$ = store.pipe(select(isCardFound(getBaseID(card.id))));
+
+    this.isCardFlipped$ = store.pipe(
+      select(getCardVisibility(card.id)),
+      withLatestFrom(isFound$),
+      map(([isVisible, isGuessed]) =>
+        isGuessed ? true : isVisible === undefined ? false : isVisible,
+      ),
+    );
+  }
+
+  public flipCard({ id }: Card): void {
+    this.store.dispatch(new AddToMoves(id));
+    this.store.dispatch(new SetCardVisibility({ [id]: true }));
   }
 }

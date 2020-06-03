@@ -1,10 +1,10 @@
 <header class="header">
   <div class="stats">
     <div>
-      Moves: <span>{{ moves }}</span>
+      Moves: <span>{{ moves$ | async }}</span>
     </div>
     <div>
-      Pairs found: <span>{{ pairsFound }}</span>
+      Pairs found: <span>{{ pairsFound$ | async }}</span>
     </div>
   </div>
 
