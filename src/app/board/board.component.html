@@ -1,2 +1,4 @@
-<main class="board"></main>
-<router-outlet></router-outlet>
+<main class="board">
+  <app-card *ngFor="let card of deck$ | async" [card]="card"></app-card>
+  <router-outlet></router-outlet>
+</main>
