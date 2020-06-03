@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+/* Credit goes to Tobias Ahlin [spinkit] && https://tobiasahlin.com/spinkit/ */
+
 @Component({
   selector: 'app-spinner',
   template: `
