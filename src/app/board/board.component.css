@@ -1,5 +1,12 @@
 .board {
   width: 100vw;
-  height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 900px;
+  overflow-y: scroll;
+  align-items: center;
+  justify-content: center;
+  max-height: calc(100vh - 80px);
+  min-height: calc(100vh - 80px);
   background-color: rgb(39, 38, 38);
 }
