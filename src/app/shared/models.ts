@@ -6,3 +6,8 @@ export type Card = {
 };
 
 export type CardVisibilityState = { [id: string]: boolean };
+
+export type LeaderboardEntry = {
+  name: string;
+  config: { deckSize: number; moves: number };
+};
