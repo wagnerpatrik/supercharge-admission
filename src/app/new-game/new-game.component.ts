@@ -6,8 +6,10 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { GenerateDeck } from '../store/board/board.actions';
 import { DEFAULT_DECK_SIZE } from '../shared/constants';
+import { getRandomName } from '../shared/utils';
+
+import { GenerateDeck } from '../store/board/board.actions';
 import { getUser } from '../store/leaderboard/leaderboard.selectors';
 import { SetUser, FetchLeaderboard } from '../store/leaderboard/leaderboard.actions';
 
@@ -48,7 +50,7 @@ export class NewGameComponent implements OnInit {
   public onSubmit({ value: { deckSize, userName }, valid }: FormGroup): void {
     if (valid) {
       this.store.dispatch(new FetchLeaderboard());
-      this.store.dispatch(new SetUser(userName));
+      this.store.dispatch(new SetUser(userName || getRandomName()));
       this.store.dispatch(new GenerateDeck(parseInt(deckSize, 10) || DEFAULT_DECK_SIZE));
     }
   }
