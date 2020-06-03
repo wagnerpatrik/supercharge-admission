@@ -31,7 +31,6 @@ export class FetchLeaderboardError implements Action {
 
 export class UpdateLeaderboard implements Action {
   readonly type = UPDATE_LEADERBOARD;
-  constructor(public leaderboard: LeaderboardEntry[]) {}
 }
 export class UpdateLeaderboardSuccess implements Action {
   readonly type = UPDATE_LEADERBOARD_SUCCESS;

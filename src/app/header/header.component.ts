@@ -7,6 +7,7 @@ import { Store, select } from '@ngrx/store';
 import { NewGame, Victory } from '../store/board/board.actions';
 import { getMoves, getFoundPairs, getDeckSize } from '../store/board/board.selectors';
 import { getUser } from '../store/leaderboard/leaderboard.selectors';
+import { UpdateLeaderboard } from '../store/leaderboard/leaderboard.actions';
 
 @Component({
   selector: 'app-header',
@@ -31,11 +32,16 @@ export class HeaderComponent implements OnInit {
     ),
     this.store.pipe(select(getFoundPairs)).pipe(
       withLatestFrom(this.store.pipe(select(getDeckSize))),
-      tap(([pairs, deckSize]) => pairs.length === deckSize && this.store.dispatch(new Victory())),
+      tap(([pairs, deckSize]) => pairs.length === deckSize && this.handleVictory()),
       map(([pairs]) => pairs.length),
     ),
     this.store.pipe(select(getUser))
   ]
+
+  private handleVictory(): void {
+    this.store.dispatch(new UpdateLeaderboard());
+    this.store.dispatch(new Victory());
+  }
 
   public navigateToStartScreen(): void {
     this.store.dispatch(new NewGame());
