@@ -12,3 +12,5 @@ export const TECHNOLOGIES = [
   'ts',
   'webpack',
 ];
+
+export const DEFAULT_DECK_SIZE = 6;
