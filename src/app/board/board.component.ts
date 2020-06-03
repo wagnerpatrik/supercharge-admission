@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs';
 
@@ -14,9 +15,11 @@ import { DEFAULT_DECK_SIZE } from '../shared/constants';
 export class BoardComponent implements OnInit {
   public deck$: Observable<Card[]>;
 
-  constructor(private boardService: BoardService) {}
+  constructor(private boardService: BoardService, private route: ActivatedRoute) {}
 
   public ngOnInit(): void {
-    this.deck$ = this.boardService.getDeck(10 || DEFAULT_DECK_SIZE);
+    const { boardService, route } = this;
+
+    this.deck$ = boardService.getDeck(route.snapshot.queryParams.deckSize || DEFAULT_DECK_SIZE);
   }
 }

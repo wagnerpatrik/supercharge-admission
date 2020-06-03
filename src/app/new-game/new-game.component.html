@@ -2,7 +2,7 @@
   <div class="new-game">
     <div class="header">Start a game</div>
 
-    <form [formGroup]="gameForm" class="content">
+    <form [formGroup]="gameForm" class="content" (ngSubmit)="onSubmit(gameForm)">
       <div class="deck-form">
         <div class="title">
           To start the game, enter the number of pairs to deal from.
@@ -15,14 +15,9 @@
         <div class="error" *ngIf="deckSize.errors && !deckSize.pristine">
           The entered value
           {{
-            deckSize.hasError('min')
-              ? 'is too low'
-              : deckSize.hasError('max')
-              ? 'is too high'
-              : ''
+            deckSize.hasError('min') ? 'is too low' : deckSize.hasError('max') ? 'is too high' : ''
           }}
-          <ng-container
-            *ngIf="deckSize.hasError('pattern') || deckSize.hasError('whitespace')"
+          <ng-container *ngIf="deckSize.hasError('pattern') || deckSize.hasError('whitespace')"
             >must be a number</ng-container
           >
         </div>

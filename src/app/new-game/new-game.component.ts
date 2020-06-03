@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, AbstractControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-game',
@@ -13,7 +14,7 @@ export class NewGameComponent implements OnInit {
     return this.gameForm.get('deckSize');
   }
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router) {
     this.gameForm = this.fb.group({
       deckSize: [
         '',
@@ -23,5 +24,7 @@ export class NewGameComponent implements OnInit {
   }
 
   public ngOnInit(): void {}
-  public onSubmit(form: FormGroup) {}
+
+  public onSubmit = ({ value: { deckSize }, valid }: FormGroup) =>
+    valid && this.router.navigate(['/board'], { queryParams: { deckSize } })
 }
