@@ -8,7 +8,7 @@ export const TECHNOLOGIES = [
   'react',
   'redux',
   'sass',
-  'supercharge',
+  'rxjs',
   'ts',
   'webpack',
 ];
