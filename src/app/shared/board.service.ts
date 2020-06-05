@@ -14,7 +14,6 @@ import {
   SetCanContinueLastGame,
   AddToMoves,
 } from '../store/board/board.actions';
-import { FetchLeaderboard } from '../store/leaderboard/leaderboard.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -51,7 +50,6 @@ export class BoardService {
   private loadPrevGame({ cardState, pairsFound, deckSize, moves }: LastGameState): void {
     this.store.dispatch(new SetDeck(cardState));
     this.store.dispatch(new AddToMoves(moves));
-    this.store.dispatch(new FetchLeaderboard());
     this.store.dispatch(new SetDeckSize(deckSize));
     this.store.dispatch(new SetNewPair(pairsFound));
     this.store.dispatch(new SetCanContinueLastGame(true));

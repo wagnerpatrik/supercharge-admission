@@ -1,12 +1,20 @@
+import { ApiService } from './../../shared/api.service';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
-import { mergeMap, map, catchError, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  mergeMap,
+  map,
+  catchError,
+  tap,
+  withLatestFrom,
+  switchMap,
+} from 'rxjs/operators';
 import { Action, select, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
-import { DB_URL, SECRET_KEY } from 'src/app/shared/constants';
+import { SECRET_KEY } from 'src/app/shared/constants';
 import { LeaderboardEntry } from 'src/app/shared/models';
 
 import * as LeaderboardActions from './leaderboard.actions';
@@ -16,35 +24,33 @@ import { getUser, getLeaderboard } from './leaderboard.selectors';
 @Injectable()
 export class LeaderboardEffects {
   constructor(
+    private store: Store<{}>,
     private actions$: Actions,
-    private http: HttpClient,
-    private store: Store<{}>
+    private apiService: ApiService,
   ) {}
 
   @Effect()
   fetchLeaderboard$: Observable<Action> = this.actions$.pipe(
     ofType<LeaderboardActions.FetchLeaderboard>(LeaderboardActions.FETCH_LEADERBOARD),
     mergeMap((_) =>
-      this.http.get(DB_URL, { headers: new HttpHeaders({ 'secret-key': SECRET_KEY }) }).pipe(
-        map(
-          ({ leaderboard }: { leaderboard: LeaderboardEntry[] }) =>
-            new LeaderboardActions.FetchLeaderboardSuccess(leaderboard),
-        ),
+      this.apiService.fetchLeaderboard$().pipe(
+        map((leaderboard) => new LeaderboardActions.FetchLeaderboardSuccess(leaderboard)),
         catchError((error) => of(new LeaderboardActions.FetchLeaderboardError(error))),
       ),
     ),
   );
 
   @Effect()
-  updateLeaderboard$: Observable<Action> = this.actions$.pipe(
+  updateLeaderboard$: Observable<Action | any> = this.actions$.pipe(
     ofType<LeaderboardActions.UpdateLeaderboard>(LeaderboardActions.UPDATE_LEADERBOARD),
+    withLatestFrom(this.store.pipe(select(getLeaderboard))),
+    switchMap(([, board]) => (!board.length ? this.apiService.fetchLeaderboard$() : of(board))),
     withLatestFrom(
       this.store.pipe(select(getDeckSize)),
       this.store.pipe(select(getMoves)),
       this.store.pipe(select(getUser)),
-      this.store.pipe(select(getLeaderboard)),
     ),
-    map(([, deckSize, { length: moves }, name, board]) => ({
+    map(([board, deckSize, { length: moves }, name]) => ({
       leaderboard: [...board, { name, config: { deckSize, moves } }],
     })),
     map((payload) => [
@@ -55,10 +61,10 @@ export class LeaderboardEffects {
         'Content-Type': 'application/json',
       }),
     ]),
-    mergeMap(([payload, headers]: [string, HttpHeaders]) =>
-      this.http.put(DB_URL, payload, { headers }).pipe(
+    mergeMap((payload: [string, HttpHeaders]) =>
+      this.apiService.updateLeaderboard$(payload).pipe(
         map(
-          ({ data: { leaderboard } }: { data: { leaderboard: LeaderboardEntry[] } }) =>
+          (leaderboard: LeaderboardEntry[]) =>
             new LeaderboardActions.UpdateLeaderboardSuccess(leaderboard),
         ),
         catchError((error) => of(new LeaderboardActions.UpdateLeaderboardError(error))),

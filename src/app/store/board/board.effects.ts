@@ -79,7 +79,9 @@ export class BoardEffects {
     ofType<BoardActions.Victory>(BoardActions.VICTORY),
     tap((_) => this.store.dispatch(new BoardActions.SetCanContinueLastGame(false))),
     tap((_) => this.router.navigate(['/board/leaderboard'], { queryParams: { victory: '!' } })),
-    tap((_) => window.localStorage.clear()),
+    tap((_) =>
+      Object.values(LastGameStateKeys).forEach((key) => window.localStorage.removeItem(key)),
+    ),
   );
 
   @Effect({ dispatch: false })

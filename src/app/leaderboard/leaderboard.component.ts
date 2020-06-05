@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { map, filter, tap } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 
 import { FetchLeaderboard } from 'src/app/store/leaderboard/leaderboard.actions';
@@ -27,7 +27,6 @@ export class LeaderboardComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.store.dispatch(new FetchLeaderboard());
     [this.leaderboard$, this.isLoading$, this.hasError$] = this.initialiseStreams();
     this.victorious =
       !!this.activatedRoute.snapshot.queryParams.victory &&
@@ -41,6 +40,7 @@ export class LeaderboardComponent implements OnInit {
   ] => [
     this.store.pipe(
       select(getLeaderboard),
+      tap(({length: entries}) => !entries && this.store.dispatch(new FetchLeaderboard())),
       filter((entries) => !!entries.length),
       map((entries) =>
         [...entries]

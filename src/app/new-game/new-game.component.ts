@@ -55,7 +55,6 @@ export class NewGameComponent implements OnInit {
   }
 
   public onSubmit({ value: { deckSize, userName } }: FormGroup): void {
-    this.store.dispatch(new FetchLeaderboard());
     this.store.dispatch(new SetUser(userName || getRandomName()));
     this.store.dispatch(new GenerateDeck(parseInt(deckSize, 10) || DEFAULT_DECK_SIZE));
   }
