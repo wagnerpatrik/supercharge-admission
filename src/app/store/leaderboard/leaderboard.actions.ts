@@ -1,6 +1,10 @@
 import { Action } from '@ngrx/store';
 import { HttpErrorResponse } from '@angular/common/http';
+
 import { LeaderboardEntry } from 'src/app/shared/models';
+
+
+export const SET_USER = '[LEADERBOARD] SET_USER';
 
 export const FETCH_LEADERBOARD = '[LEADERBOARD] FETCH_LEADERBOARD';
 export const FETCH_LEADERBOARD_SUCCESS = '[LEADERBOARD] FETCH_LEADERBOARD_SUCCESS';
@@ -9,8 +13,6 @@ export const FETCH_LEADERBOARD_ERROR = '[LEADERBOARD] FETCH_LEADERBOARD_ERROR';
 export const UPDATE_LEADERBOARD = '[LEADERBOARD] UPDATE_LEADERBOARD';
 export const UPDATE_LEADERBOARD_SUCCESS = '[LEADERBOARD] UPDATE_LEADERBOARD_SUCCESS';
 export const UPDATE_LEADERBOARD_ERROR = '[LEADERBOARD] UPDATE_LEADERBOARD_ERROR';
-
-export const SET_USER = '[LEADERBOARD] SET_USER';
 
 export class SetUser implements Action {
   readonly type = SET_USER;

@@ -39,13 +39,13 @@ export class NewGameComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    [this.user$, this.canContinueLastGame$] = this.initialiseStream();
+    [this.user$, this.canContinueLastGame$] = this.initialiseStreams();
   }
 
-  private initialiseStream = (): [Observable<string>, Observable<boolean>] => [
+  private initialiseStreams = (): [Observable<string>, Observable<boolean>] => [
     this.store.pipe(
       select(getUser),
-      tap((userName) => (!!userName && this.gameForm.patchValue({ userName }))),
+      tap((userName) => !!userName && this.gameForm.patchValue({ userName })),
     ),
     this.store.pipe(select(getCanContinue)),
   ]
@@ -54,11 +54,9 @@ export class NewGameComponent implements OnInit {
     this.router.navigate([url]);
   }
 
-  public onSubmit({ value: { deckSize, userName }, valid }: FormGroup): void {
-    if (valid) {
-      this.store.dispatch(new FetchLeaderboard());
-      this.store.dispatch(new SetUser(userName || getRandomName()));
-      this.store.dispatch(new GenerateDeck(parseInt(deckSize, 10) || DEFAULT_DECK_SIZE));
-    }
+  public onSubmit({ value: { deckSize, userName } }: FormGroup): void {
+    this.store.dispatch(new FetchLeaderboard());
+    this.store.dispatch(new SetUser(userName || getRandomName()));
+    this.store.dispatch(new GenerateDeck(parseInt(deckSize, 10) || DEFAULT_DECK_SIZE));
   }
 }

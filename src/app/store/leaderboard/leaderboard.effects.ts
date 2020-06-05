@@ -6,16 +6,20 @@ import { mergeMap, map, catchError, tap, withLatestFrom } from 'rxjs/operators';
 import { Action, select, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
-import * as LeaderboardActions from './leaderboard.actions';
-
 import { DB_URL, SECRET_KEY } from 'src/app/shared/constants';
 import { LeaderboardEntry } from 'src/app/shared/models';
+
+import * as LeaderboardActions from './leaderboard.actions';
 import { getDeckSize, getMoves } from '../board/board.selectors';
 import { getUser, getLeaderboard } from './leaderboard.selectors';
 
 @Injectable()
 export class LeaderboardEffects {
-  constructor(private actions$: Actions, private http: HttpClient, private store: Store<{}>) {}
+  constructor(
+    private actions$: Actions,
+    private http: HttpClient,
+    private store: Store<{}>
+  ) {}
 
   @Effect()
   fetchLeaderboard$: Observable<Action> = this.actions$.pipe(

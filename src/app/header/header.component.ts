@@ -22,10 +22,10 @@ export class HeaderComponent implements OnInit {
   constructor(private store: Store<{}>) {}
 
   public ngOnInit(): void {
-    [this.moves$, this.pairsFound$, this.user$] = this.initialiseStream();
+    [this.moves$, this.pairsFound$, this.user$] = this.initialiseStreams();
   }
 
-  private initialiseStream = (): [Observable<number>, Observable<number>, Observable<string>] => [
+  private initialiseStreams = (): [Observable<number>, Observable<number>, Observable<string>] => [
     this.store.pipe(
       select(getMoves),
       map(({ length }) => length),

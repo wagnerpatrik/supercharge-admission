@@ -3,9 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import { Card, LastGameState } from './models';
-import { TECHNOLOGIES, CARDS_PATH, EXTENSION, PREV_GAME_STATE_KEYS } from './constants';
+import { Card, LastGameState, LastGameStateKeys } from './models';
+import { TECHNOLOGIES, CARDS_PATH, EXTENSION } from './constants';
 import { compose } from './utils';
+
 import {
   SetDeck,
   SetNewPair,
@@ -28,11 +29,9 @@ export class BoardService {
   constructor(private store: Store<{}>) {}
 
   private generateCards(deckSize: number): Card[] {
-    return TECHNOLOGIES
-      .slice(0, deckSize)
-      .map((tech, i) =>
-        ({ id: `${i}`, imgSource: `${CARDS_PATH}${tech}${EXTENSION}` } as Card),
-      );
+    return TECHNOLOGIES.slice(0, deckSize).map(
+      (tech, i) => ({ id: `${i}`, imgSource: `${CARDS_PATH}${tech}${EXTENSION}` } as Card),
+    );
   }
 
   private doubleDeck(deck: Card[]): Card[] {
@@ -49,9 +48,7 @@ export class BoardService {
       .map(([, card]: [number, Card]) => card);
   }
 
-  private loadPrevGame(
-    { cardState, pairsFound, deckSize, moves }: LastGameState = {} as LastGameState,
-  ): void {
+  private loadPrevGame({ cardState, pairsFound, deckSize, moves }: LastGameState): void {
     this.store.dispatch(new SetDeck(cardState));
     this.store.dispatch(new AddToMoves(moves));
     this.store.dispatch(new FetchLeaderboard());
@@ -61,8 +58,8 @@ export class BoardService {
   }
 
   public shouldLoadPrevGame(): void {
-    const [pairsFound, deckSize, cardState, moves] = PREV_GAME_STATE_KEYS.map((data) =>
-      JSON.parse(window.localStorage.getItem(data)),
+    const [pairsFound, deckSize, cardState, moves] = Object.values(LastGameStateKeys).map(
+      (key) => JSON.parse(window.localStorage.getItem(key)),
     );
 
     return (

@@ -2,10 +2,10 @@
   height: 80px;
   color: #fff;
   display: flex;
-  padding: 0 70px;
-  min-width: 760px;
+  padding: 0 4%;
+  min-width: 600px;
   align-items: center;
-  width: calc(100vw - 140px);
+  width: calc(100vw - 8%);
   justify-content: space-between;
   background-color: rgb(36, 35, 35);
   border-bottom: 1px solid rgba(89, 192, 143, 0.94);
@@ -13,6 +13,7 @@
 
 .stats {
   flex: 1;
+  min-width: 100px;
 }
 
 .stats span {
@@ -21,23 +22,22 @@
 
 .title {
   font-size: 2rem;
+  flex: 5;
   text-align: center;
-  width: calc(100% - 260px - 220px);
 }
 
 .actions {
   display: flex;
-  max-width: 250px;
+  flex: 1;
   align-items: center;
-  justify-content: space-between;
 }
 
 .actions div {
-  max-width: 160px;
-  text-overflow: ellipsis;
+  max-width: 165px;
   overflow: hidden;
-  white-space: nowrap;
   margin-left: 15px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .user {

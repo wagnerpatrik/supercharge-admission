@@ -8,7 +8,7 @@ const initialState: BoardState = {
   deck: [],
   moves: [],
   loading: false,
-  deckSize: null,
+  deckSize: 0,
   foundPairs: [],
   canContinueLastGame: false,
   cardsVisibility: {} as CardVisibilityState,

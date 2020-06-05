@@ -5,7 +5,9 @@ export type Card = {
   imgSource: string;
 };
 
-export type CardVisibilityState = { [id: string]: boolean };
+export type CardVisibilityState = {
+  [id: string]: boolean
+};
 
 export type LeaderboardEntry = {
   name: string;
@@ -18,3 +20,10 @@ export type LastGameState = {
   deckSize: number;
   moves: string[];
 };
+
+export enum LastGameStateKeys {
+  PairsFound = 'pairs',
+  DeckSize = 'deckSize',
+  CardState = 'cardState',
+  MovesTaken = 'moves',
+}

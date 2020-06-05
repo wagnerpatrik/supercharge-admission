@@ -28,7 +28,7 @@ export class BoardComponent implements OnInit {
     this.deck$ = store.pipe(
       select(getDeck),
       withLatestFrom(store.pipe(select(getCanContinue))),
-      tap(([{ length }, canRestart]) => (!length || canRestart) && router.navigateByUrl(`board/start`) ),
+      tap(([{ length }, canContinue]) => (!length || canContinue) && router.navigateByUrl(`board/start`) ),
       map(([deck]) => deck)
     );
   }

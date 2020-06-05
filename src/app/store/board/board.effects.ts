@@ -11,6 +11,7 @@ import { getMoves, getCardsVisibility, getFoundPairs } from './board.selectors';
 
 import { getBaseID } from 'src/app/shared/utils';
 import { BoardService } from 'src/app/shared/board.service';
+import { LastGameStateKeys } from 'src/app/shared/models';
 
 @Injectable()
 export class BoardEffects {
@@ -30,8 +31,8 @@ export class BoardEffects {
       this.boardService.getDeck(deckSize).pipe(
         tap((deck) => {
           this.router.navigate(['/board']);
-          window.localStorage.setItem('cardState', JSON.stringify(deck));
-          window.localStorage.setItem('deckSize', JSON.stringify(deckSize));
+          window.localStorage.setItem(LastGameStateKeys.CardState, JSON.stringify(deck));
+          window.localStorage.setItem(LastGameStateKeys.DeckSize, JSON.stringify(deckSize));
         }),
         delay(500),
         map((deck) => new BoardActions.SetDeck(deck)),
@@ -44,7 +45,9 @@ export class BoardEffects {
   compareCards$: Observable<Action | any> = this.actions$.pipe(
     ofType<BoardActions.SetCardVisibility>(BoardActions.SET_CARD_VISIBILITY),
     withLatestFrom(this.store.pipe(select(getMoves)), this.store.pipe(select(getCardsVisibility))),
-    tap(([, moves]) => window.localStorage.setItem('moves', JSON.stringify(moves))),
+    tap(([, moves]) =>
+      window.localStorage.setItem(LastGameStateKeys.MovesTaken, JSON.stringify(moves)),
+    ),
     tap(
       (_) =>
         this.timerRef &&
@@ -83,6 +86,8 @@ export class BoardEffects {
   savePairs$: Observable<Action | any> = this.actions$.pipe(
     ofType<BoardActions.SetNewPair>(BoardActions.SET_NEW_PAIR),
     withLatestFrom(this.store.pipe(select(getFoundPairs))),
-    tap(([, pairs]) => window.localStorage.setItem('pairs', JSON.stringify(pairs))),
+    tap(([, pairs]) =>
+      window.localStorage.setItem(LastGameStateKeys.PairsFound, JSON.stringify(pairs)),
+    ),
   );
 }

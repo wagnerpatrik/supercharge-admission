@@ -2,7 +2,7 @@
   width: 100vw;
   display: flex;
   flex-wrap: wrap;
-  min-width: 900px;
+  min-width: 650px;
   overflow-y: scroll;
   align-items: center;
   justify-content: center;

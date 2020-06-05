@@ -5,9 +5,10 @@ export function compose(...fns: ((data: any) => any)[]) {
   return (deckSize: number): Card[] => fns.reduceRight((g, f) => f(g), deckSize);
 }
 
-export function getBaseID(id: string): string {
-  return id[0];
+export function getBaseID([id]: string): string {
+  return id;
 }
 
-export const getRandomName = () =>
-  DEFAULT_NAMES[Math.floor(Math.random() * DEFAULT_NAMES.length)];
+export function getRandomName(): string {
+  return DEFAULT_NAMES[Math.floor(Math.random() * DEFAULT_NAMES.length)];
+}
