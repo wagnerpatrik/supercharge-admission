@@ -22,11 +22,11 @@ export class CardComponent implements OnInit {
   constructor(private store: Store<{}>) {}
 
   public ngOnInit(): void {
-    const { card, store } = this;
-    const isFound$ = store.pipe(select(isCardFound(getBaseID(card.id))));
+    const { card: { id }, store } = this;
+    const isFound$ = store.pipe(select(isCardFound(getBaseID(id))));
 
     this.isCardFlipped$ = store.pipe(
-      select(getCardVisibility(card.id)),
+      select(getCardVisibility(id)),
       withLatestFrom(isFound$),
       map(([isFlipped, isFound]) =>
         isFound ? true : isFlipped === undefined ? false : isFlipped,

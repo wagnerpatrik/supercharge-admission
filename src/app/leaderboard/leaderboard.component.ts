@@ -6,7 +6,11 @@ import { map, filter, tap } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 
 import { FetchLeaderboard } from 'src/app/store/leaderboard/leaderboard.actions';
-import { getLeaderboard, isLoading, getError } from 'src/app/store/leaderboard/leaderboard.selectors';
+import {
+  getLeaderboard,
+  isLoading,
+  getError,
+} from 'src/app/store/leaderboard/leaderboard.selectors';
 import { LeaderboardEntry } from '../shared/models';
 
 @Component({
@@ -40,7 +44,7 @@ export class LeaderboardComponent implements OnInit {
   ] => [
     this.store.pipe(
       select(getLeaderboard),
-      tap(({length: entries}) => !entries && this.store.dispatch(new FetchLeaderboard())),
+      tap(({ length: entries }) => !entries && this.store.dispatch(new FetchLeaderboard())),
       filter((entries) => !!entries.length),
       map((entries) =>
         [...entries]

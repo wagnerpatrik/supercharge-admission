@@ -42,7 +42,7 @@ export class BoardEffects {
   );
 
   @Effect({ dispatch: false })
-  compareCards$: Observable<Action | any> = this.actions$.pipe(
+  compareCards$: Observable<[string, string]> = this.actions$.pipe(
     ofType<BoardActions.SetCardVisibility>(BoardActions.SET_CARD_VISIBILITY),
     withLatestFrom(this.store.pipe(select(getMoves)), this.store.pipe(select(getCardsVisibility))),
     tap(([, moves]) =>
@@ -58,7 +58,7 @@ export class BoardEffects {
         !!Object.values(cards).length && !((Object.values(cards).length % 2) as number),
     ),
     map(([, moves, cards]) => Object.keys(cards).filter((c) => moves.slice(-2).includes(c))),
-    tap(([x, y]) =>
+    tap(([x, y]: [string, string]) =>
       getBaseID(x) === getBaseID(y)
         ? this.store.dispatch(new BoardActions.SetNewPair([getBaseID(x)]))
         : (this.timerRef = window.setTimeout(
@@ -85,7 +85,7 @@ export class BoardEffects {
   );
 
   @Effect({ dispatch: false })
-  savePairs$: Observable<Action | any> = this.actions$.pipe(
+  savePairs$: Observable<[BoardActions.SetNewPair, string[]]> = this.actions$.pipe(
     ofType<BoardActions.SetNewPair>(BoardActions.SET_NEW_PAIR),
     withLatestFrom(this.store.pipe(select(getFoundPairs))),
     tap(([, pairs]) =>

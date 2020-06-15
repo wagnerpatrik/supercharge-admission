@@ -41,7 +41,7 @@ export class LeaderboardEffects {
   );
 
   @Effect()
-  updateLeaderboard$: Observable<Action | any> = this.actions$.pipe(
+  updateLeaderboard$: Observable<Action> = this.actions$.pipe(
     ofType<LeaderboardActions.UpdateLeaderboard>(LeaderboardActions.UPDATE_LEADERBOARD),
     withLatestFrom(this.store.pipe(select(getLeaderboard))),
     switchMap(([, board]) => (!board.length ? this.apiService.fetchLeaderboard$() : of(board))),

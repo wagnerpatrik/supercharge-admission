@@ -11,7 +11,7 @@ import { getRandomName } from '../shared/utils';
 
 import { GenerateDeck } from '../store/board/board.actions';
 import { getUser } from '../store/leaderboard/leaderboard.selectors';
-import { SetUser, FetchLeaderboard } from '../store/leaderboard/leaderboard.actions';
+import { SetUser } from '../store/leaderboard/leaderboard.actions';
 import { getCanContinue } from '../store/board/board.selectors';
 
 @Component({
